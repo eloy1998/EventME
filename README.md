@@ -1,4 +1,4 @@
-# 📱 EventNet
+# 📱 EventME
 
 **Tagline:** Discover. Book. Experience. Your events, simplified.
 
