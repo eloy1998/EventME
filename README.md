@@ -28,16 +28,16 @@ EventNet is a mobile-first event discovery and reservation platform. It helps us
 
 ### ✅ Required Features
 
-- [x] View nearby live events using location  
+- [X] View nearby live events using location  
 - [x] Tap on an event to view detailed info (title, image, description, time, host)  
-- [x] Reserve a spot at an event and get confirmation  
+- [X] Reserve a spot at an event and get confirmation  
 
 ### ✨ Optional Features
 
-- Push notifications for upcoming reserved events
-- Search or filter by category (music, food, networking)
-- Favorite hosts or save events for later
-- Dark mode toggle for accessibility
+- [ ] Push notifications for upcoming reserved events  
+- [ ] Search events by title  
+- [ ] Save (favorite) events for later  
+- [ ] Dark mode toggle for accessibility
 
 ---
 
