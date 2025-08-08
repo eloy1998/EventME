@@ -96,4 +96,10 @@ Capstone project for CodePath iOS Development - Unit 8
 **Developed by:** _Eloy _  
 **GitHub Repo:** _[Insert GitHub Repo URL here]_# EventME
 
-<a href="//imgur.com/a/xs21RNQ">EventMe</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+<div>
+    <a href="https://www.loom.com/share/6707837cb0ef42d7bee3031a698db2a7">
+    </a>
+    <a href="https://www.loom.com/share/6707837cb0ef42d7bee3031a698db2a7">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/6707837cb0ef42d7bee3031a698db2a7-6b793c801f42ac02-full-play.gif">
+    </a>
+  </div>
