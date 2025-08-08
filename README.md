@@ -28,9 +28,9 @@ EventNet is a mobile-first event discovery and reservation platform. It helps us
 
 ### ✅ Required Features
 
-1. View nearby live events using location
-2. Tap on an event to view detailed info (title, image, description, time, host)
-3. Reserve a spot at an event and get confirmation
+- [x] View nearby live events using location  
+- [x] Tap on an event to view detailed info (title, image, description, time, host)  
+- [x] Reserve a spot at an event and get confirmation  
 
 ### ✨ Optional Features
 
