@@ -34,10 +34,10 @@ EventNet is a mobile-first event discovery and reservation platform. It helps us
 
 ### ✨ Optional Features
 
-- [ ] Push notifications for upcoming reserved events  
-- [ ] Search events by title  
-- [ ] Save (favorite) events for later  
-- [ ] Dark mode toggle for accessibility
+- [X] Push notifications for upcoming reserved events  
+- [X] Search events by title  
+- [X] Save (favorite) events for later  
+- [X] Dark mode toggle for accessibility
 
 ---
 
