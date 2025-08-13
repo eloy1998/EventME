@@ -35,4 +35,22 @@ class EventService {
             )
         ]
     }
+
+    // Add a new event and notify UI to refresh
+    func add(_ event: Event) {
+        events.append(event)
+        NotificationCenter.default.post(name: Notification.Name("eventsUpdated"), object: nil)
+    }
+
+    // Convenience search used by EventListViewController
+    func search(byTitle query: String) -> [Event] {
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return events }
+        return events.filter { $0.title.localizedCaseInsensitiveContains(trimmed) }
+    }
+
+    // Helper to get events ordered by start time
+    func sortedByDate() -> [Event] {
+        events.sorted { $0.date < $1.date }
+    }
 }

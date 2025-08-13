@@ -1,6 +1,7 @@
 import UIKit
+import UserNotifications
 
-class EventDetailViewController: UIViewController {
+final class EventDetailViewController: UIViewController {
     var event: Event!
 
     private let scrollView = UIScrollView()
@@ -10,6 +11,7 @@ class EventDetailViewController: UIViewController {
     private let hostLabel = UILabel()
     private let dateLabel = UILabel()
     private let descriptionLabel = UILabel()
+
     private let reserveButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Reserve Spot", for: .normal)
@@ -21,13 +23,33 @@ class EventDetailViewController: UIViewController {
         return button
     }()
 
+    // MARK: - Nav Items (Favorite + Theme)
+    private lazy var favoriteButton: UIBarButtonItem = {
+        let imgName = ReservationManager.shared.isSaved(event) ? "heart.fill" : "heart"
+        return UIBarButtonItem(image: UIImage(systemName: imgName), style: .plain, target: self, action: #selector(toggleFavorite))
+    }()
+
+    private lazy var themeToggleButton: UIBarButtonItem = {
+        let img = UIImage(systemName: isDarkModeEnabled ? "sun.max" : "moon")
+        return UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(toggleDarkMode))
+    }()
+
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        navigationItem.rightBarButtonItems = [favoriteButton, themeToggleButton]
         configureUI()
         setData()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateFavoriteIcon()
+        updateThemeIcon()
+    }
+
+    // MARK: - UI Setup
     private func configureUI() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -91,7 +113,7 @@ class EventDetailViewController: UIViewController {
 
         // DateLabel
         dateLabel.font = .systemFont(ofSize: 16)
-        dateLabel.textColor = .gray
+        dateLabel.textColor = .secondaryLabel
         NSLayoutConstraint.activate([
             dateLabel.topAnchor.constraint(equalTo: hostLabel.bottomAnchor, constant: 4),
             dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
@@ -123,21 +145,47 @@ class EventDetailViewController: UIViewController {
         imageView.image = UIImage(named: event.imageName)
         titleLabel.text = event.title
         hostLabel.text = "Host: \(event.host)"
-        let df = DateFormatter()
-        df.dateStyle = .medium
-        df.timeStyle = .short
+        let df = DateFormatter(); df.dateStyle = .medium; df.timeStyle = .short
         dateLabel.text = df.string(from: event.date)
         descriptionLabel.text = event.description
     }
 
+    // MARK: - Reserve & Notifications
     @objc private func reserveTapped() {
         ReservationManager.shared.reserve(event)
+        NotificationManager.shared.scheduleReminder(for: event, minutesBefore: 30)
         let alert = UIAlertController(
             title: "Reserved!",
-            message: "Your spot for \(event.title) is confirmed.",
+            message: "Your spot for \(event.title) is confirmed. We'll remind you 30 minutes before it starts.",
             preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+
+    // MARK: - Favorites (UserDefaults-based)
+    @objc private func toggleFavorite() {
+        ReservationManager.shared.toggleSave(event)
+        updateFavoriteIcon()
+    }
+
+    private func updateFavoriteIcon() {
+        favoriteButton.image = UIImage(systemName: ReservationManager.shared.isSaved(event) ? "heart.fill" : "heart")
+    }
+
+    // MARK: - Theme toggle (Dark/Light)
+    private var isDarkModeEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: "EventME.isDarkMode") }
+        set { UserDefaults.standard.set(newValue, forKey: "EventME.isDarkMode") }
+    }
+
+    @objc private func toggleDarkMode() {
+        isDarkModeEnabled.toggle()
+        NotificationCenter.default.post(name: Notification.Name("themeChanged"), object: nil)
+        updateThemeIcon()
+    }
+
+    private func updateThemeIcon() {
+        themeToggleButton.image = UIImage(systemName: isDarkModeEnabled ? "sun.max" : "moon")
     }
 }

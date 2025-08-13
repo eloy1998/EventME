@@ -7,6 +7,9 @@
 
 import UIKit
 
+/// Root controller that wires up the app’s three main areas and surfaces the
+/// optional features (search in Events, reserve+notifications in Detail, favorites in Profile,
+/// dark mode toggle in Profile).
 class ViewController: UITabBarController {
 
     override func viewDidLoad() {
@@ -15,26 +18,28 @@ class ViewController: UITabBarController {
     }
 
     private func configureTabBar() {
-        // Events List tab
+        // Events List tab (has UISearchController inside EventListViewController)
         let listVC = EventListViewController()
         listVC.title = "Events"
         let listNav = UINavigationController(rootViewController: listVC)
-        listNav.tabBarItem.image = UIImage(systemName: "list.bullet")
+        listNav.navigationBar.prefersLargeTitles = true
+        listNav.tabBarItem = UITabBarItem(title: "Events", image: UIImage(systemName: "list.bullet"), tag: 0)
 
-        // Calendar tab
+        // Calendar tab (pushes to EventDetail where Reserve triggers notifications)
         let calVC = CalendarViewController()
         calVC.title = "Calendar"
         let calNav = UINavigationController(rootViewController: calVC)
-        calNav.tabBarItem.image = UIImage(systemName: "calendar")
+        calNav.navigationBar.prefersLargeTitles = true
+        calNav.tabBarItem = UITabBarItem(title: "Calendar", image: UIImage(systemName: "calendar"), tag: 1)
 
-        // Profile tab
+        // Profile tab (shows Saved + Dark Mode toggle)
         let profileVC = ProfileViewController()
         profileVC.title = "Profile"
         let profileNav = UINavigationController(rootViewController: profileVC)
-        profileNav.tabBarItem.image = UIImage(systemName: "person")
+        profileNav.navigationBar.prefersLargeTitles = true
+        profileNav.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 2)
 
-        // Assign view controllers to the tab bar
         viewControllers = [listNav, calNav, profileNav]
+        selectedIndex = 0
     }
 }
-
